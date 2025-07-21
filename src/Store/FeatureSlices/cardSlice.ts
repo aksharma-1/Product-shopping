@@ -4,7 +4,8 @@ export interface CardItem {
     name: string,
     size: number | null,
     quantity: number | null,
-    price: number | null
+    price: number | null,
+    image:string
 }
 
 export interface CardState {

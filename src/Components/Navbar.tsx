@@ -78,9 +78,9 @@ const Navbar = () => {
                                             products.map((item, index) => (
                                                 <React.Fragment key={index} >
                                                     <div className='relative flex gap-2 items-center pb-5 border-b border-zinc-200'>
-                                                        <button className='absolute cursor-pointer flex items-center justify-center h-5 w-5 top-2 right-2 rounded-full bg-[#0a1a3c] text-zinc-500 hover:text-zinc-100'
+                                                        <button className='absolute cursor-pointer flex items-center justify-center h-5 w-5 top-0 right-0 rounded-full bg-[#0a1a3c] text-zinc-500 hover:text-zinc-100'
                                                         onClick={()=>dispatch(removeProductFromCard(item))}>x</button>
-                                                        <img className='' src='https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-1.jpg' width={110} />
+                                                        <img className='' src={item.image} width={110} />
                                                         <div className='text-zinc-700'>
                                                             <h6>{item.name}</h6>
                                                             <p>Size: {item.size}</p>

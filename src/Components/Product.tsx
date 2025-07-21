@@ -33,7 +33,8 @@ const Product = () => {
             name: "Hever Navy 3 Piece Nehru Suit",
             size: parseInt(selectedSize),
             quantity: 1,
-            price: 745.00
+            price: 745.00,
+            image: "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-1.jpg"
         };
         dispatch(addItemTocard(item))
         setSelectedSize("");

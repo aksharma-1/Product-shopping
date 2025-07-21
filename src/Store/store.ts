@@ -6,3 +6,5 @@ export const store = configureStore({
         cardSliceData: cardSlice,
     }
 })
+
+export type RootState = ReturnType<typeof store.getState>;

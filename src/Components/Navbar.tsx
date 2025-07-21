@@ -19,7 +19,6 @@ const Navbar = () => {
                 setShowCard(false);
             }
         };
-
         if (showCard) {
             document.body.addEventListener('mousedown', handleClickOutside);
         }

@@ -1,30 +1,30 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addItemTocard, type CardItem } from "../Store/FeatureSlices/cardSlice";
-// import Slider from "react-slick";
 
 const Product = () => {
 
     const [selectedSize, setSelectedSize] = useState<string>("");
+    const [productImage, setProductImage] = useState<number>(0);
+    const [currentSlide, setCurrentSlide] = useState<number>(0);
     const dispatch = useDispatch();
 
-    // let settings = {
-    //     dots: true,
-    //     infinite: true,
-    //     speed: 500,
-    //     slidesToShow: 4,
-    //     slidesToScroll: 4
-    // };
 
-    // const productImage: string[] = [
-    //     "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-2.jpg",
-    //     "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-3.jpg",
-    //     "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-4.jpg",
-    //     "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-5.jpg",
-    // ]
 
-    const handleAddToCart = ():void => {
-        if(selectedSize === "") {
+    const productImages: string[] = [
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-1.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-2.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-3.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-4.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-5.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-6.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-7.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-8.jpg",
+        "https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-9.jpg",
+    ]
+
+    const handleAddToCart = (): void => {
+        if (selectedSize === "") {
             alert("Please select a size before adding to the cart.");
             return;
         }
@@ -35,32 +35,47 @@ const Product = () => {
             price: 745.00
         };
         dispatch(addItemTocard(item))
-        setSelectedSize(""); 
+        setSelectedSize("");
     }
 
     const handleSizeChange = (size: string): void => {
         console.log("Selected size:", size);
         setSelectedSize(size);
+
     };
 
 
     return (
         <>
-            <div className='flex justify-around items-center py-10 px-30 gap-5'>
+            <div className='grid grid-cols-2 justify-items-center items-center py-10 px-30'>
                 {/* product image */}
-                <div>
-                    <img src='https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-1.jpg' alt='Hever Navy 3 Piece Nehru Suit' width={700} />
+                <div className="">
+                    <img className="mx-auto" src={`https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-${productImage+1}.jpg`} alt='Hever Navy 3 Piece Nehru Suit' width="70%" />
 
-                    {/* <div className="slider-container">
-                        <Slider {...settings}>
-                            {productImage.map((image, index) => (
-                                <div key={index}>
-                                    <img src={image} width={100} alt={`Hever Navy 3 Piece Nehru Suit ${index + 1}`} />
-                                </div>
-                            ))}
-                        </Slider>
-                    </div> */}
+                    <div className="flex w-full justify-around my-5 overflow-hidden">
+                        <button className="text-zinc-700 cursor-pointer text-2xl hover:text-zinc-900"
+                         onClick={() => setCurrentSlide((prev) => prev - 1)}>{"<"}</button>
+                        <div className="overflow-hidden relative h-full" style={{ width: "70%" }}>
+                            <div className="flex gap-2 justify-center transition duration-500 ease-out" style={{
+                                transform: `translateX(-${currentSlide * 100}%)`,
+                            }}>
+                                {productImages.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        alt={`Product Image ${index + 1}`}
+                                        className='w-16 h-16 object-cover cursor-pointer border-zinc-800 hover:brightness-50'
+                                        onClick={() => setProductImage(index+1)}
+                                    />
+                                ))}
+                            </div>
+
+                        </div>
+                        <button className="text-zinc-700 cursor-pointer text-2xl hover:text-zinc-900"
+                        onClick={() => setCurrentSlide((prev) => prev + 1)}>{">"}</button>
+                    </div>
                 </div>
+
 
                 {/* product description */}
                 <div>
@@ -78,7 +93,7 @@ const Product = () => {
                                 <select
                                     name="size"
                                     className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
-                                    onChange={(e)=>handleSizeChange(e.target.value)}
+                                    onChange={(e) => handleSizeChange(e.target.value)}
                                     value={selectedSize}>
                                     <option value="">Select an option</option>
                                     <option value="36">36</option>

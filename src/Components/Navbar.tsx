@@ -1,7 +1,7 @@
 import { FaLock, FaSearch, FaShoppingCart } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import type { RootState } from '../Store/store'
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { decreaseProductQuantity, increaseProductQuantity } from '../Store/FeatureSlices/cardSlice';
 import { useDispatch } from 'react-redux';
 
@@ -9,8 +9,25 @@ const Navbar = () => {
 
     const { products, totalPrice } = useSelector((state: RootState) => state.cardSliceData);
     const [showCard, setShowCard] = useState<boolean>(false);
+    const modalRef = useRef<HTMLDivElement>(null);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const handleClickOutside = (event: { target: any; }) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setShowCard(false);
+            }
+        };
+
+        if (showCard) {
+            document.body.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.body.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showCard]);
 
 
     return (
@@ -52,7 +69,7 @@ const Navbar = () => {
                 {
                     showCard && (
 
-                        <div className='absolute overflow-y-scroll h-72 w-1/4 top-25 right-30 bg-white p-5 shadow-2xl'>
+                        <div className='absolute overflow-y-scroll h-72 w-1/4 top-25 right-30 bg-white p-5 shadow-2xl' ref={modalRef}>
 
                             {
                                 products.length > 0 ? (
@@ -60,7 +77,7 @@ const Navbar = () => {
                                         {
 
                                             products.map((item, index) => (
-                                                <React.Fragment key={index}>
+                                                <React.Fragment key={index} >
                                                     <div className='flex gap-2 pb-5 border-b border-zinc-200'>
                                                         <img src='https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-1.jpg' width={100} />
                                                         <div className='text-zinc-700'>

@@ -7,6 +7,7 @@ const Product = () => {
     const [selectedSize, setSelectedSize] = useState<string>("");
     const [productImage, setProductImage] = useState<number>(0);
     const [currentSlide, setCurrentSlide] = useState<number>(0);
+
     const dispatch = useDispatch();
 
 
@@ -49,12 +50,15 @@ const Product = () => {
         <>
             <div className='grid grid-cols-2 justify-items-center items-center py-10 px-30'>
                 {/* product image */}
-                <div className="">
-                    <img className="mx-auto" src={`https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-${productImage+1}.jpg`} alt='Hever Navy 3 Piece Nehru Suit' width="70%" />
+                <div className="relative">
+                    <span className="absolute top-6 text-sm left-21 bg-amber-400 text-zinc-50 p-2">Free Cravat</span>
+                    <img className="mx-auto" src={`https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-${productImage + 1}.jpg`} alt='Hever Navy 3 Piece Nehru Suit' width="70%" />
 
                     <div className="flex w-full justify-around my-5 overflow-hidden">
                         <button className="text-zinc-700 cursor-pointer text-2xl hover:text-zinc-900"
-                         onClick={() => setCurrentSlide((prev) => prev - 1)}>{"<"}</button>
+                            onClick={() => setCurrentSlide((prev) => (
+                                prev <= 0 ? 0 : prev - 0.5
+                            ))}>{"<"}</button>
                         <div className="overflow-hidden relative h-full" style={{ width: "70%" }}>
                             <div className="flex gap-2 justify-center transition duration-500 ease-out" style={{
                                 transform: `translateX(-${currentSlide * 100}%)`,
@@ -64,15 +68,17 @@ const Product = () => {
                                         key={index}
                                         src={image}
                                         alt={`Product Image ${index + 1}`}
-                                        className='w-16 h-16 object-cover cursor-pointer border-zinc-800 hover:brightness-50'
-                                        onClick={() => setProductImage(index+1)}
+                                        className='w-1/5 object-cover cursor-pointer border-zinc-800 hover:brightness-50'
+                                        onClick={() => setProductImage(index)}
                                     />
                                 ))}
                             </div>
 
                         </div>
                         <button className="text-zinc-700 cursor-pointer text-2xl hover:text-zinc-900"
-                        onClick={() => setCurrentSlide((prev) => prev + 1)}>{">"}</button>
+                            onClick={() => setCurrentSlide((prev) => (
+                                prev >= 1 ? 1 :
+                                    prev + 0.5))}>{">"}</button>
                     </div>
                 </div>
 

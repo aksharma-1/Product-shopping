@@ -34,6 +34,10 @@ const cardSlice = createSlice({
             }
 
         }),
+        removeProductFromCard: ((state: CardState, action: PayloadAction<CardItem>) => {
+            state.products = state.products.filter((item) => item.name !== action.payload.name || item.size !== action.payload.size)
+            state.totalPrice -= (action.payload.price || 0) * (action.payload.quantity || 0);
+        }),
         increaseProductQuantity: ((state: CardState, action: PayloadAction<{ name: string, size: number | null }>) => {
             state.products.map((item: CardItem) => {
                 if (item.name === action.payload.name && item.size === action.payload.size) {
@@ -45,10 +49,10 @@ const cardSlice = createSlice({
         decreaseProductQuantity: ((state: CardState, action: PayloadAction<{ name: string, size: number | null }>) => {
             state.products.map((item: CardItem) => {
                 if (item.name === action.payload.name && item.size === action.payload.size) {
-                    if(item.quantity && item.quantity <= 1) {
-                        state.products = state.products.filter((i)=> i.name !== item.name || i.size !== item.size);
-                        state.totalPrice -= item.price || 0;   
-                        return 
+                    if (item.quantity && item.quantity <= 1) {
+                        state.products = state.products.filter((i) => i.name !== item.name || i.size !== item.size);
+                        state.totalPrice -= item.price || 0;
+                        return
                     }
                     item.quantity = item.quantity ? item.quantity - 1 : 0;
                     state.totalPrice -= item.price || 0;
@@ -58,6 +62,6 @@ const cardSlice = createSlice({
     }
 })
 
-export const { addItemTocard, increaseProductQuantity, decreaseProductQuantity } = cardSlice.actions;
+export const { addItemTocard, removeProductFromCard, increaseProductQuantity, decreaseProductQuantity } = cardSlice.actions;
 
 export default cardSlice.reducer;

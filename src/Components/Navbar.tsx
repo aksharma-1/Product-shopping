@@ -2,7 +2,7 @@ import { FaLock, FaSearch, FaShoppingCart } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import type { RootState } from '../Store/store'
 import React, { useEffect, useRef, useState } from 'react';
-import { decreaseProductQuantity, increaseProductQuantity } from '../Store/FeatureSlices/cardSlice';
+import { decreaseProductQuantity, increaseProductQuantity, removeProductFromCard } from '../Store/FeatureSlices/cardSlice';
 import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
@@ -77,8 +77,10 @@ const Navbar = () => {
 
                                             products.map((item, index) => (
                                                 <React.Fragment key={index} >
-                                                    <div className='flex gap-2 pb-5 border-b border-zinc-200'>
-                                                        <img src='https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-1.jpg' width={100} />
+                                                    <div className='relative flex gap-2 items-center pb-5 border-b border-zinc-200'>
+                                                        <button className='absolute cursor-pointer flex items-center justify-center h-5 w-5 top-2 right-2 rounded-full bg-[#0a1a3c] text-zinc-500 hover:text-zinc-100'
+                                                        onClick={()=>dispatch(removeProductFromCard(item))}>x</button>
+                                                        <img className='' src='https://www.aristocracy.london/wp-content/uploads/2025/04/Hever-Navy-3-Piece-Nehru-Suit-1.jpg' width={110} />
                                                         <div className='text-zinc-700'>
                                                             <h6>{item.name}</h6>
                                                             <p>Size: {item.size}</p>
@@ -86,6 +88,7 @@ const Navbar = () => {
                                                             <div className='flex text-xs items-center gap-2 mb-5'>
                                                                 Change Quantity:
                                                                 <button className='border border-zinc-300 h-6 w-6 cursor-pointer flex items-center justify-center rounded hover:bg-zinc-100'
+                                                                disabled={item.quantity === 1}
                                                                     onClick={() => dispatch(decreaseProductQuantity({ name: 'Hever Navy 3 Piece Nehru Suit', size: item.size }))}>-</button>
                                                                 <button className='border border-zinc-300 h-6 w-6 cursor-pointer flex items-center justify-center rounded hover:bg-zinc-100'
                                                                     onClick={() => dispatch(increaseProductQuantity({ name: 'Hever Navy 3 Piece Nehru Suit', size: item.size }))}>+</button>
